@@ -1,0 +1,14 @@
+.button.download-button {
+    background-color: #60804F;
+    position: relative;
+    padding-left: 30px;
+
+    &:before {
+        content: '+';
+        color: #B9B7B4;
+        position: absolute;
+        left: 10px;
+
+    }
+}
+

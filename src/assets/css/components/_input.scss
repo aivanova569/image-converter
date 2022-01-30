@@ -1,0 +1,16 @@
+.custom-input {
+  .label {
+    color: #B9B7B4;
+  }
+
+  .value {
+    color: #ffffff;
+    margin-left: 10px;
+  }
+
+  .range {
+    &::-webkit-slider-runnable-track {
+      background-color: #6c6c6c;
+    }
+  }
+}
