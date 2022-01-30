@@ -1,12 +1,16 @@
-import {IMAGE_EXTENSION} from '../constants/imageExtension';
+import { parseBase64 } from "../helpers/parseBase64";
+
+import { IMAGE_EXTENSION } from "../constants/imageExtension";
 import {
-    DEFAULT_SEPIA,
-    DEFAULT_BRIGHTNESS,
     DEFAULT_BLUR,
-    MAX_QUALITY_IMAGE,
-    DEFAULT_OFFSETS
-} from '../base/constants/app';
-import {parseBase64} from '../helpers/parseBase64';
+    DEFAULT_BRIGHTNESS,
+    DEFAULT_OFFSETS,
+    DEFAULT_SEPIA,
+    DEFAULT_SHADOW_HEIGHT,
+    DEFAULT_SHADOW_WIDTH,
+    MAX_QUALITY_IMAGE
+} from "../constants";
+
 
 class CanvasService {
 
@@ -24,6 +28,9 @@ class CanvasService {
         this.brightness = DEFAULT_BRIGHTNESS;
         this.sepia = DEFAULT_SEPIA;
         this.offsets = DEFAULT_OFFSETS;
+        this.shadowBlur = DEFAULT_BLUR;
+        this.shadowWidth = DEFAULT_SHADOW_WIDTH;
+        this.shadowHeight = DEFAULT_SHADOW_HEIGHT;
     }
 
     init(image, canvas, config) {
@@ -31,8 +38,8 @@ class CanvasService {
         this.context = canvas.getContext('2d');
         this.image = image;
         this.#initSize(image.width, image.height);
-        this.#loadImage();
         this.changeConfig(config);
+        this.#loadImage();
     }
 
     changeConfig (config) {
@@ -50,25 +57,23 @@ class CanvasService {
         this.brightness = config.brightness;
         this.sepia = config.sepia;
         this.extension = config.extension;
+        this.shadowBlur = config.shadowBlur;
+        this.shadowWidth = config.shadowWidth;
+        this.shadowHeight = config.shadowHeight;
         this.#loadImage(this.canvas.width, this.canvas.height);
     }
 
-    getResult() {
-        const origin = parseBase64(this.image.src);
-        const edited  = parseBase64(
-            this.canvas.toDataURL(`${CanvasService.extensionPrefix}${this.extension}`)
-        );
+    #initSize(width, height) {
+        this.width = width;
+        this.canvas.width = width;
+        this.height = height;
+        this.canvas.height = height;
+    }
 
-        return [
-            {
-                name: `original.${origin.extension}`,
-                src: origin.link,
-            },
-            {
-                name: `edited.${edited.extension}`,
-                src: edited.link,
-            }
-        ]
+    #calculateSize() {
+        const { top, bottom, right, left} = this.offsets;
+        this.canvas.height = this.canvas.height + Number(bottom) + Number(top);
+        this.canvas.width = this.canvas.width + Number(right) + Number(left);
     }
 
     #changeScale(scale) {
@@ -83,8 +88,8 @@ class CanvasService {
     }
 
     #loadImage() {
-        const { top, bottom, right, left} = this.offsets;
-        this.context.filter = `blur(${this.blur}px) sepia(${this.sepia}%) brightness(${this.brightness}%)`;
+        const {top, bottom, right, left} = this.offsets;
+        this.context.filter = `blur(${this.blur}px) sepia(${this.sepia}%) brightness(${this.brightness}%) drop-shadow(${this.shadowWidth}px ${this.shadowHeight}px ${this.shadowBlur}px #000000)`;
         this.context.drawImage(
             this.image,
             0,
@@ -98,18 +103,24 @@ class CanvasService {
         );
     }
 
-    #calculateSize() {
-        const { top, bottom, right, left} = this.offsets;
-        this.canvas.height = this.canvas.height + Number(bottom) + Number(top);
-        this.canvas.width = this.canvas.width + Number(right) + Number(left);
+    getResult() {
+        const source = parseBase64(this.image.src);
+        const edited  = parseBase64(
+            this.canvas.toDataURL(`${CanvasService.extensionPrefix}${this.extension}`)
+        );
+
+        return [
+            {
+                name: `original.${source.extension}`,
+                src: source.link,
+            },
+            {
+                name: `edited.${edited.extension}`,
+                src: edited.link,
+            }
+        ]
     }
 
-    #initSize(width, height) {
-        this.width = width;
-        this.canvas.width = width;
-        this.height = height;
-        this.canvas.height = height;
-    }
 }
 
 export const canvasService = new CanvasService()

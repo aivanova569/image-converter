@@ -1,27 +1,29 @@
 import React from 'react';
-import {FormGroup, Label, Input} from 'reactstrap';
-import {INPUT_TYPES} from "../../constants/inputTypes";
+import { FormGroup, Label, Input } from 'reactstrap';
 
 
-const Select = ({value, label, onChange, name, options}) => (
-    <FormGroup>
+const Select = ({values, label, onChange, name, options}) => {
+
+    return (
+        <FormGroup>
         <Label for="exampleSelect">
-            {label}
+                {label}
         </Label>
         <Input
-            id='exampleSelect'
+            id="exampleSelect"
             name={name}
-            type={INPUT_TYPES.SELECT}
+            type="select"
             onChange={onChange}
-            value={value}
+            value={values}
         >
-            {options.map((value) => (
-                <option key={value}>
-                    {value}
-                </option>
-            ))}
+                {options.map((value) => (
+                    <option key={value}>
+                            {value}
+                    </option>
+                ))}
         </Input>
-    </FormGroup>
-);
+        </FormGroup>
+    )
+}
 
 export default Select;

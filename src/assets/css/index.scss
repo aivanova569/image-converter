@@ -1,12 +1,57 @@
-@import "components/app";
-@import "components/image-view";
-@import "components/menu";
-@import "components/button";
-@import "components/input";
+@import "components/_dropzone";
+@import "components/_image-view";
+@import "components/settings-bar";
+@import "components/_button";
+@import "components/_input";
 
-* {
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    color: #B9B7B4;
+}
+body{
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    overflow-x: hidden;
+    background-color: #086d6d;
+}
+a{
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+    display: inline-block;
+}
+ul{
+    list-style: none;
+}
+button{
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+}
+input,
+textarea,
+select{
+    color: inherit;
+    &::placeholder{
+        color: inherit;
+    }
+    &:focus{
+        &::placeholder{
+            opacity: 0;
+        }
+    }
+}
+
+.container{
+    max-width: 1230px;
+    padding: 0 15px;
+    margin: 0 auto;
 }

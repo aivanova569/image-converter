@@ -1,6 +1,7 @@
-export const loadingImg = (callback) => (files) => {
+export const acceptFile = (callback) => (files) => {
 
     const reader = new FileReader();
+
     reader.onload = function (event) {
         const img = new Image();
         img.onload = () => {
@@ -8,5 +9,5 @@ export const loadingImg = (callback) => (files) => {
         };
         img.src = event.target.result;
     };
-    reader.readAsDataURL(files[0])
+    reader.readAsDataURL(files[0]);
 };

@@ -1,18 +1,16 @@
-.menu {
-    flex: 0 0 40vh;
-    width: 100%;
+.settings-box {
     display: flex;
-    justify-content: space-around;
-    padding-top: 20px;
-
-    &>div {
-        flex: 0 0 40%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
+    &__item {
+        width: 30%;
+        text-align: left;
     }
-    .offset {
-        display: flex;
-        gap: 10px;
+}
+.custom {
+    &-input {
+        margin-bottom: 10px;
+    }
+    &-label {
+        display: block;
+        margin-bottom: 5px;
     }
 }

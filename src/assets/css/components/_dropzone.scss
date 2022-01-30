@@ -1,0 +1,19 @@
+.dropzone {
+  &__wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__box {
+    width: 300px;
+    height: 300px;
+    border: 3px dotted #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e0e0e0;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
